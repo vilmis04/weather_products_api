@@ -14,5 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/api/products/recommended/{city}', function (string $city) {
-    return view('welcome');
+    return $city;
 });
