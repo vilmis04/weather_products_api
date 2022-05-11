@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/api/products/recommended/{city}', function (string $city) {
-    return $city;
-});
+Route::get('/api/products/recommended/{city}', [ProductController::class, 'recommend']);
