@@ -13,6 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/api/products/recommended/{city}', function (string $city) {
     return view('welcome');
 });
