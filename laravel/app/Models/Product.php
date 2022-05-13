@@ -13,6 +13,7 @@ class Product extends Model
     public function recommendProductByWeather(string $city)
     {
         $response = [
+            'source' => 'LHMT',
             'city' => $city,
             'recommendations' => []
         ];
