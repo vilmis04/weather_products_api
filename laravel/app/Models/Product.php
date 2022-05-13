@@ -10,7 +10,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    public function recommendProductByWeather(string $city)
+    public function recommendProductByWeather(string $city): string
     {
         $response = [
             'source' => 'LHMT',
@@ -22,9 +22,10 @@ class Product extends Model
         $apiResponse = json_decode(Http::get($url), true);
 
         $forecasts = $this->getThreeDayForecast($apiResponse['forecastTimestamps']);
-        $response['recommendations'] = $this->getMostOccuringWeather($forecasts);
+        $mostOccuringTypes = $this->getMostOccuringWeather($forecasts);
+        $response['recommendations'] = $this->getProductRecommendations($mostOccuringTypes);
 
-        return $response;
+        return json_encode($response, JSON_PRETTY_PRINT);
     }
 
     private function getThreeDayForecast(array $forecastTimestamps): array
@@ -75,5 +76,39 @@ class Product extends Model
         }
 
         return $result;
+    }
+
+    private function getProductRecommendations(array $recommendations): array
+    {
+        $result = [];
+        foreach($recommendations as $condition) {
+            $products = self::where('condition_1', $condition['weather_forecast'])
+                ->take(2)
+                ->get()
+                ->toArray();
+
+            $condition['products'] = $this->formatProductInfo($products);
+            $result[] = $condition;
+        }
+        
+        return $result;
+    }
+
+    private function formatProductInfo(array $products): array
+    {
+        $formatedProducts = [];
+        if (count($products) === 0) {
+            $formatedProducts[] = ['error' => 'No products for this weather type'];
+        } else {
+            foreach($products as $product) {
+                $formatedProducts[] = [
+                    'sku' => $product['sku'],
+                    'name' => $product['name'],
+                    'price' => $product['price']
+                ];
+            }
+        }
+
+        return $formatedProducts;
     }
 }
