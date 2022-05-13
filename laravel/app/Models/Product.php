@@ -12,13 +12,18 @@ class Product extends Model
 
     public function recommendProductByWeather(string $city)
     {
+        $response = [
+            'city' => $city,
+            'recommendations' => []
+        ];
+
         $url = 'https://api.meteo.lt/v1/places/' . $city . '/forecasts/long-term';
-        $response = json_decode(Http::get($url), true);
+        $apiResponse = json_decode(Http::get($url), true);
 
-        $forecasts = $this->getThreeDayForecast($response['forecastTimestamps']);
-        $mostOccuringWeather = $this->getMostOccuringWeather($forecasts);
+        $forecasts = $this->getThreeDayForecast($apiResponse['forecastTimestamps']);
+        $response['recommendations'] = $this->getMostOccuringWeather($forecasts);
 
-        return $mostOccuringWeather;
+        return $response;
     }
 
     private function getThreeDayForecast(array $forecastTimestamps): array
@@ -62,7 +67,10 @@ class Product extends Model
                     $occurence = $count;
                 }
             }
-            $result[$date] = $mostOccuringType;
+            $result[] = [
+                'weather_forecast' => $mostOccuringType,
+                'date' => $date
+            ];
         }
 
         return $result;
