@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
  
 class Product extends Model
@@ -25,7 +26,11 @@ class Product extends Model
         $mostOccuringTypes = $this->getMostOccuringWeather($forecasts);
         $response['recommendations'] = $this->getProductRecommendations($mostOccuringTypes);
 
-        return json_encode($response, JSON_PRETTY_PRINT);
+        $jsonResponse = json_encode($response, JSON_PRETTY_PRINT);
+
+        // cache([$city => $jsonResponse], now()->addMinutes(5));
+        Cache::put($city, $jsonResponse, now()->addMinutes(5));
+        return $jsonResponse;
     }
 
     private function getThreeDayForecast(array $forecastTimestamps): array
