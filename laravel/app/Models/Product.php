@@ -45,13 +45,8 @@ class Product extends Model
             $condition = $forecast['conditionCode'];
 
             $forecasts[$date][$condition] = $forecasts[$date][$condition] ?? 0;
-            $forecasts[$date][$condition] += 1;
+            $forecasts[$date][$condition]++;
 
-            // if (isset($forecasts[$date][$condition])) {
-            //     $forecasts[$date][$condition]++;
-            // } else {
-            //     $forecasts[$date][$condition] = 1;
-            // }
         }
 
         return $forecasts;
