@@ -26,8 +26,8 @@ class Product extends Model
         $response['recommendations'] = $this->getProductRecommendations($forecasts);
 
         $jsonResponse = json_encode($response, JSON_PRETTY_PRINT);
-
         Cache::put($city, $jsonResponse, now()->addMinutes(5));
+
         return $jsonResponse;
     }
 
@@ -49,7 +49,6 @@ class Product extends Model
 
             $forecasts[$date][$condition] = $forecasts[$date][$condition] ?? 0;
             $forecasts[$date][$condition]++;
-
         }
 
         $mostOccurinigType = $this->getMostOccuringWeather($forecasts);
@@ -61,29 +60,37 @@ class Product extends Model
     {
         $result = [];
         foreach ($forecasts as $date => $conditions) {
-            $mostOccuringType = '';
-            $occurence = 0;
-            foreach($conditions as $condition => $count) {
-                if ($count > $occurence) {
-                    $mostOccuringType = $condition;
-                    $occurence = $count;
-                }
-            }
-            $result[] = [
-                'weather_forecast' => $mostOccuringType,
-                'date' => $date
-            ];
+            $weatherType = $this->calculateMostOccuringType($date, $conditions);
+            $result[] = $weatherType;
         }
 
         return $result;
     }
+    
+    private function calculateMostOccuringType(string $date, array $conditions): array
+    {
+        $mostOccuringType = '';
+        $occurence = 0;
+        foreach($conditions as $condition => $count) {
+            if ($count > $occurence) {
+                $mostOccuringType = $condition;
+                $occurence = $count;
+            }
+        }
+
+        return [
+            'weather_forecast' => $mostOccuringType,
+            'date' => $date
+        ];
+    }
 
     private function getProductRecommendations(array $recommendations): array
-    {
+    {   
+        $numberOfProducts = 2;
         $result = [];
         foreach($recommendations as $condition) {
             $products = self::where('condition_1', $condition['weather_forecast'])
-                ->take(2)
+                ->take($numberOfProducts)
                 ->get()
                 ->toArray();
 
@@ -97,16 +104,14 @@ class Product extends Model
     private function formatProductInfo(array $products): array
     {
         $formatedProducts = [];
-        if (count($products) === 0) {
-            $formatedProducts[] = ['error' => 'No products for this weather type'];
-        } else {
-            foreach($products as $product) {
-                $formatedProducts[] = [
-                    'sku' => $product['sku'],
-                    'name' => $product['name'],
-                    'price' => $product['price']
-                ];
-            }
+        if (count($products) === 0) return [['error' => 'No products for this weather type']];
+
+        foreach($products as $product) {
+            $formatedProducts[] = [
+                'sku' => $product['sku'],
+                'name' => $product['name'],
+                'price' => $product['price']
+            ];
         }
 
         return $formatedProducts;
