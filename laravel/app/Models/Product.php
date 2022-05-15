@@ -23,12 +23,10 @@ class Product extends Model
         $apiResponse = json_decode(Http::get($url), true);
 
         $forecasts = $this->getThreeDayForecast($apiResponse['forecastTimestamps']);
-        $mostOccuringTypes = $this->getMostOccuringWeather($forecasts);
-        $response['recommendations'] = $this->getProductRecommendations($mostOccuringTypes);
+        $response['recommendations'] = $this->getProductRecommendations($forecasts);
 
         $jsonResponse = json_encode($response, JSON_PRETTY_PRINT);
 
-        // cache([$city => $jsonResponse], now()->addMinutes(5));
         Cache::put($city, $jsonResponse, now()->addMinutes(5));
         return $jsonResponse;
     }
@@ -54,7 +52,9 @@ class Product extends Model
 
         }
 
-        return $forecasts;
+        $mostOccurinigType = $this->getMostOccuringWeather($forecasts);
+
+        return $mostOccurinigType;
     }
 
     private function getMostOccuringWeather(array $forecasts): array
