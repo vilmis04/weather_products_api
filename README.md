@@ -1,110 +1,66 @@
-# Join Adeo Web
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
-## Description
-Create a service, which returns product recommendations depending on the weather forecast.
+<p align="center">
+<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
-## Technology stack
-You are expected to use the following:
+## About Laravel
 
- - PHP 7, 8+ version;
- - MySQL or equivalent database engine;
- - Symfony/Laravel framework;
- 
-### Example
-Let's say you have in stock a sunglasses, coat and an umbrella. 
-If the sun is shining - you should recommend sunglasses, in case of the rain - umbrella and coat, and in case of the snow - coat would be your recommendation.
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-For the next 3 days depending on the forecast, select 2 items that would match the weather forecast.
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-You can use the following example as a starting point for your application
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-```http request
-GET /api/products/recommended/:city
-```
+## Learning Laravel
 
-Input parameters `:city` - (i.e. Vilnius)
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-Output:
-```json
-{
-  "city": "Vilnius",
-  "recommendations": 
-  [
-    {
-        "weather_forecast": "rain",
-        "date": "2020-02-14",
-        "products": [    
-          {
-            "sku": "UM-1",
-            "name": "Black Umbrella",
-            "price": 10.11
-          },
-          {
-            "sku": "HAT-15",
-            "name": "Pink Hat",
-            "price": 6.07
-          }
-        ]
-      },
-      {
-        "weather_forecast": "sunny",
-        "date": "2020-02-15",
-        "products": [
-          {
-            "name": "Synergistic Leather Hat",
-            "sku": "UM-13",
-            "price": "94.68"
-          },
-          {
-            "name": "Heavy Duty Iron Hat",
-            "sku": "UM-18",
-            "price": "10.76"
-          }
-        ]
-      },
-      ...
-  ]
-}
-```
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-### Requirements
- - Use **GIT** properly - just like you will do in production;
- - Store your product data in the database;
- - Service should be realized using REST API principles. Request and response should be handled in JSON format;
- - Integrate third-party API to get the current weather information in any Lithuania city. We recommend using the LHMT API: https://api.meteo.lt/ .  (Note, that this API requires you to inform the user about the source of the data, which is LHMT).
- - Use cache for all requests (for 5 min.).
- 
-### Suggestions
- - It should use the most occurring weather type;
- - Host it somewhere (e.g. Heroku, Google) or provide us with the ability to launch your app (include the command that would start it, bonus if you include docker-compose.yml);
- - Fill the README.md file as you would do for a production application. Include challenge description, used technologies, setup guide and usage examples.
+## Laravel Sponsors
 
-## How we review
-The submitted code will be evaluated for the following aspects:
+We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
 
- - **Presentation.**  Is GIT used properly? Do you make separate commits for different features? Is the README file present and well-formatted? Does README include setup instructions? Is the application hosted somewhere?
- - **Requirements.** Does it take the current weather from the API? How is the sample data generated? Does code follow REST principles? Is the database structured correctly?
- - **Architecture.** How well the components of the application are separated? Does object-oriented code follow principles such as the single responsibility principle?
- - **Correctness.** Does service do what is asked? Are data validated? Are results limited? How errors are handled? Does it return appropriate status codes?
- - **Code style.** Is the coding style consistent with the language's guidelines? Does it follow PSR-12 standard? Is it consistent throughout the codebase?
- - **Code quality.** Is the code simple, easy to understand, and maintainable? Are there any code smells or other red flags? Any automated tests (unit, integration) written?
- - **Security.** Are there any obvious vulnerabilities?
+### Premium Partners
 
-## Code submission
-Create a branch and make your changes, then when you are ready just commit, submit a pull-request and mark **@joinAdeoWeb** as a reviewer.
+- **[Vehikl](https://vehikl.com/)**
+- **[Tighten Co.](https://tighten.co)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **[64 Robots](https://64robots.com)**
+- **[Cubet Techno Labs](https://cubettech.com)**
+- **[Cyber-Duck](https://cyber-duck.co.uk)**
+- **[Many](https://www.many.co.uk)**
+- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
+- **[DevSquad](https://devsquad.com)**
+- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
+- **[OP.GG](https://op.gg)**
+- **[CMS Max](https://www.cmsmax.com/)**
+- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
+- **[Lendio](https://lendio.com)**
+- **[Romega Software](https://romegasoftware.com)**
 
-## FAQ
-In what framework do I do this task?
- - Do it with whatever framework you know best
- - All the frameworks are fine as long as they are open source
- 
-How much time do I have?
- - We don’t have any requirements for a time frame, but you can inform us how many hours you estimate.
- - Other developers take from ~3h till 3d to complete this task, depending on seniority level, whether they work or not and etc.
+## Contributing
 
-What do you want to understand from this task?
- - We try to figure out how you think, where it is easy, and you do have experience
- - We attempt to understand how you write this task - do you start from the README? Or do you dig into the code?
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-Do we you your code for our clients?
- - No. 99% of our clients are big eCommerce or multichannel trading businesses (Topo Centras, Jysk, Pegasas, Eoltas and etc.) - to whom this task is not applied 
+## Code of Conduct
+
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+
+## Security Vulnerabilities
+
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+
+## License
+
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
