@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Hamcrest\Core\IsTypeOf;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
@@ -19,16 +20,29 @@ class Product extends Model
             'recommendations' => []
         ];
 
-        $url = 'https://api.meteo.lt/v1/places/' . $city . '/forecasts/long-term';
-        $apiResponse = json_decode(Http::get($url), true);
+        $apiResponse = $this->getForecast($city);
 
         $forecasts = $this->getThreeDayForecast($apiResponse['forecastTimestamps']);
         $response['recommendations'] = $this->getProductRecommendations($forecasts);
+
+        $response = response($response, 200)
+                  ->header('Content-Type', 'text/json');
 
         $jsonResponse = json_encode($response, JSON_PRETTY_PRINT);
         Cache::put($city, $jsonResponse, now()->addMinutes(5));
 
         return $jsonResponse;
+    }
+
+    private function getForecast(string $city): array
+    {
+        $uri = 'https://api.meteo.lt/v1/places/' . $city . '/forecasts/long-term';
+        $apiResponse = Http::accept('application/json')
+                                ->get($uri);
+        
+        $response = json_decode($apiResponse, true);
+
+        return $response;
     }
 
     private function getThreeDayForecast(array $forecastTimestamps): array
