@@ -26,7 +26,7 @@ class Product extends Model
         $response['recommendations'] = $this->getProductRecommendations($forecasts);
 
         $response = response($response, 200)
-                  ->header('Content-Type', 'text/json');
+                  ->header('Content-Type', 'application/json');
 
         $jsonResponse = json_encode($response, JSON_PRETTY_PRINT);
         Cache::put($city, $jsonResponse, now()->addMinutes(5));
