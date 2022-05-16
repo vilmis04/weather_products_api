@@ -3,20 +3,87 @@
 ## Overview
 
 This service is created to provide product recommendations based on weather forecast for the next 3 days. <br>
-The forecasts are based on [Meteo.lt API](https://api.meteo.lt/).
+The forecasts are based on [Meteo.lt API](https://api.meteo.lt/) - the most occuring weather condition of the day is used for the recommendation. <br>
+Product are stored in a MySQL database.
 
 ## Tutorial
 
-This is the primary part of the documentation.
+To get the recommended products, make a GET request to this endpoint:
 
-It should include the different content formats you are using to explain the concept of the API to the user. It can also include links for reference and a step-by-step guide for integrating the API and consuming it so it functions properly.
+`GET https://weather-api-products.000webhostapp.com/api/products/recommended/:city`
+
+Here, **city** indicates which city's weather forecast will be used for the product recommendation.
+
+The response will include:
+- source (LHMT)
+- city
+- recommendations for three dates:
+    - weather forecast
+    - date
+    - products:
+        -  name of the product
+        -  price
+        -  sku - stock-keeping unit code
 
 ## Examples
 
-Once you've explained how the API works and/or provided itemized steps, it's a good idea to show examples of calls, responses, error handling, and other operations that have to do with how the developer interacts with the API.
+The example of the response:
 
-## Glossary
+```
 
-Though this is optional, I recommend adding a glossary page for your API documentation.
+{
+  "source": "LHMT",
+  "city": "kaunas",
+  "recommendations": [
+    {
+      "weather_forecast": "clear",
+      "date": "2022-05-17",
+      "products": [
+        {
+          "sku": "CLR-001",
+          "name": "Classy Sunglasses",
+          "price": 12.99
+        },
+        {
+          "sku": "CLR-002",
+          "name": "Baseball Cap  Hat",
+          "price": 10.59
+        }
+      ]
+    },
+    {
+      "weather_forecast": "clear",
+      "date": "2022-05-18",
+      "products": [
+        {
+          "sku": "CLR-001",
+          "name": "Classy Sunglasses",
+          "price": 12.99
+        },
+        {
+          "sku": "CLR-002",
+          "name": "Baseball Cap  Hat",
+          "price": 10.59
+        }
+      ]
+    },
+    {
+      "weather_forecast": "overcast",
+      "date": "2022-05-19",
+      "products": [
+        {
+          "sku": "OVC-001",
+          "name": "Colorful Umbrella",
+          "price": 9.99
+        },
+        {
+          "sku": "OVC-002",
+          "name": "Trench Coat",
+          "price": 39.99
+        }
+      ]
+    }
+  ]
+}
 
-To avoid boring the user with long text blocks, explanations of various terms, schemas, images, and so on that you use throughout documentation can all be pushed to the glossary. Then you can reference these things in the documentation, and link to the glossary.
+```
